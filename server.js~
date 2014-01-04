@@ -1,0 +1,59 @@
+// server.js
+
+// set up ========================
+var express  = require('express');
+var app      = express(); 	// create our app w/ express
+var _	     = require('underscore')._;
+//var mongoose = require('mongoose'); 	// mongoose for mongodb
+
+// configuration =================
+//mongoose.connect('mongodb://node:node@mongo.onmodulus.net:27017/uwO3mypu'); 	// connect to mongoDB database
+
+app.configure(function() {
+	app.use(express.static(__dirname + '/public'));		// set the static files location i.e. /public/img will be /img for users
+	app.use(express.logger('dev')); 	// log every request to the console
+	app.use(express.bodyParser()); 		// pull information from html in POST
+	app.use(express.methodOverride()); 	// simulate DELETE and PUT
+});
+
+// define model
+
+var WebTalk = function() {
+	var self = this,
+	    channels = [];
+
+	self.addChannel = function (channelName) {
+		if (!_.contains(channels, channelName))
+			channels.push(channelName);
+	}
+
+	self.getChannels = function () {
+		return channels;
+	}
+}
+var wt = new WebTalk();
+
+// routes ======================================================================
+
+	// api ---------------------------------------------------------------------
+	// get all channels
+	app.get('/api/channels', function(req, res) {
+		
+		res.json(wt.getChannels());
+	});
+
+	// create new channel and return all channels after creation
+	app.post('/api/channels', function(req, res) {
+
+		wt.addChannel(req.body.text);
+		res.json(wt.getChannels());
+	});
+
+// application -------------------------------------------------------------
+	app.get('*', function(req, res) {
+		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+	});
+
+// listen (start app with node server.js) ======================================
+app.listen(8080);
+console.log("App listening on port 8080");

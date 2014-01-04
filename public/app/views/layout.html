@@ -1,0 +1,29 @@
+<!doctype html>
+
+<html ng-app="app">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Web Talk</title>
+
+	<!-- STYLES -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	<link rel="stylesheet" href="/content/site.css"><!-- load site master layout -->
+
+	<!-- SCRIPTS -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.9/require.min.js"></script><!-- load require -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script><!-- load angular -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-route.js"></script><!-- load routing -->
+	<script src="app/app.js"></script><!-- load application module -->
+	<script src="app/controllers/app.controllers.js"></script><!-- load controllers module -->
+
+</head>
+<body>
+    <!-- VIEWS -->
+	<div class="container" ng-view></div>
+</body>
+</html>
+
+
