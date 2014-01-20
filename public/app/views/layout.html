@@ -19,13 +19,14 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script><!-- load angular -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-route.js"></script><!-- load routing -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-animate.js"></script><!-- load animation -->
+	<script src="lib/ui-bootstrap-tpls-0.10.0.min.js"></script><!-- load angular-bootstrap-ui -->
 	<script src="app/app.js"></script><!-- load application module -->
 	<script src="app/controllers/app.controllers.js"></script><!-- load controllers module -->
 
 </head>
 <body>
     <!-- NAVBAR -->
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default" role="navigation" ng-controller="NavController">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapsible-nav-area">
           <span class="sr-only">Toggle navigation</span>

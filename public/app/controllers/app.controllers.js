@@ -24,3 +24,19 @@ angular.module('app.controllers').controller('TalkController', ['$scope', '$http
     $scope.voiceStream = {};
     
 }]);
+
+// Navbar Controller
+angular.module('app.controllers').controller('NavController', ['$scope', function($scope) {
+    angular.element(document).ready(function() {
+        // Changes gray 'active' color to the link clicked
+        $('ul.nav > li').click(function (e) {
+            $('ul.nav > li').removeClass('active');
+            $(this).addClass('active');                
+        });
+        
+        // If the home button (brand icon) is clicked, remove gray active color from all links
+        $('.navbar-brand').click(function (e) {
+            $('ul.nav > li').removeClass('active');               
+        });
+    });
+}]);
