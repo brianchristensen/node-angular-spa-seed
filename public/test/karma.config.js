@@ -9,12 +9,11 @@ module.exports = function(config) {
 
 
     // frameworks to use
-    frameworks: ['jasmine'],
+    frameworks: [/*'jasmine'*/],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'test-main.js',
       {pattern: '*spec.js', included: false},
       {pattern: '../app/*.js', included: false},
       {pattern: '../app/**/*.js', included: false}
@@ -22,9 +21,7 @@ module.exports = function(config) {
 
 
     // list of files to exclude
-    exclude: [
-      
-    ],
+    exclude: ['app/lib/angular/angular-scenario.js'],
 
 
     // test results reporter to use
@@ -61,7 +58,7 @@ module.exports = function(config) {
 
 
     // If browser does not capture in given timeout [ms], kill it
-    captureTimeout: 60000,
+    captureTimeout: 30000,
 
 
     // Continuous Integration mode

@@ -1,13 +1,17 @@
 html		{ overflow-y:scroll; }
 body		{ padding-top:0px; }
 
+.clickable {
+    cursor: pointer;
+}
+
 /*VIEW AREA TRANSITIONS*/
 .view-area.ng-enter {
-  -webkit-transition:all linear .5s;
-  -moz-transition:all linear .5s;
-  -ms-transition:all linear .5s;
-  -o-transition:all linear .5s;
-  transition:all linear .5s;
+  -webkit-transition:all linear .25s;
+  -moz-transition:all linear .25s;
+  -ms-transition:all linear .25s;
+  -o-transition:all linear .25s;
+  transition:all linear .25s;
 }
 
 .view-area.ng-enter,
@@ -18,3 +22,4 @@ body		{ padding-top:0px; }
 .view-area.ng-enter.ng-enter-active {
   opacity:1;
 }
+

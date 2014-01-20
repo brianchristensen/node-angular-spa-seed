@@ -1,0 +1,21 @@
+<!-- HEADER -->
+<div class="jumbotron text-center">
+	<h1>Toll Sum</h1>
+</div>
+
+<!-- FORM TO CREATE CHANNEL -->
+<div id="channel-form" class="row">
+	<div class="col-sm-8 col-sm-offset-2 text-center">
+		<form>
+			<div class="form-group">
+
+				<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+				<input type="text" class="form-control input-lg text-center" placeholder="Starting location" ng-model="formData.text">
+				<input type="text" class="form-control input-lg text-center" placeholder="Destination">
+			</div>
+
+			<!-- createChannel() WILL CREATE A NEW CHANNEL -->
+			<button type="submit" class="btn btn-primary btn-lg" ng-click="createChannel()">Calculate Tolls</button>
+		</form>
+	</div>
+</div>
