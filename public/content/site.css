@@ -1,6 +1,7 @@
 html		{ overflow-y:scroll; }
 body		{ padding-top:0px; }
 
+/*UI DECORATORS*/
 .clickable {
     cursor: pointer;
 }

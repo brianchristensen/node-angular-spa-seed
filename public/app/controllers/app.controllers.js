@@ -23,7 +23,7 @@ angular.module('app.controllers', [])
 }])
 
 // Routes Controller
-.controller('RoutesController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+.controller('RoutesController', ['$scope', '$http', '$location', '$window', function($scope, $http, $location, $window) {
     $scope.formData = {};
 
     // when creating a new channel, send the channel name to the node API
@@ -36,7 +36,7 @@ angular.module('app.controllers', [])
 			    $location.path("/sum");
 		    })
 		    .error(function(data) {
-			    console.log('Error: ' + data);
+ 		        
 		    });
     };
 }])
@@ -47,41 +47,24 @@ angular.module('app.controllers', [])
     
 }])
 
-// Modal window controller
-.controller('ModalController', ['$scope', '$modal', function($scope, $modal) {
+// Error Controller
+.controller('ErrorController', ['$scope', '$http', '$routeParams', '$window', function($scope, $http, $routeParams, $window) {
+    $scope.error = { msg: $window.sessionStorage.error };
+    
+}])
 
-    $scope.openModal = function (modal) {
+// Logout Controller
+.controller('LogoutController', ['$scope', '$window', '$location', 'AuthorizationService',
+     function($scope, $window, $location, auth) {
         
-        switch(modal) {
-            case 'logon':
-                var modalInstance = $modal.open({
-                  templateUrl: 'app/views/modal/logonModal.html',
-                  controller: 'LogonModalController'
-                });
-                break;
-            case 'contact':
-                var modalInstance = $modal.open({
-                  templateUrl: 'app/views/modal/contactModal.html',
-                  controller: 'ContactModalController'
-                });
-                break;
-        }
-        
-        modalInstance.result.then(function (e) {
+        $scope.logout = function () {     
+            delete $window.sessionStorage.token;
+            delete $window.sessionStorage.role;
+            auth.role = 'unauthenticated';
+            auth.isLoggedIn = false
             
-        });
-    };
-}])
+            $location.path('/');
+        }
+}])  
 
-// Logon Modal Controller
-.controller('LogonModalController', ['$scope', '$modalInstance', function($scope, $modalInstance) {
-    $scope.voiceStream = {};
-    
-}])
-
-// Contact Modal Controller
-.controller('ContactModalController', ['$scope', '$modalInstance', function($scope, $modalInstance) {
-    $scope.voiceStream = {};
-    
-}]);
 

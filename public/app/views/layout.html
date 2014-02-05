@@ -10,7 +10,7 @@
 
 	<!-- STYLES -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"><!-- load bootstrap layout -->
-	<link rel="stylesheet" href="/content/site.css"><!-- load site master layout -->
+	<link rel="stylesheet" href="content/site.css"><!-- load site master layout -->
 
 	<!-- SCRIPTS -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jQuery -->
@@ -22,6 +22,9 @@
 	<script src="lib/ui-bootstrap-tpls-0.10.0.min.js"></script><!-- load angular-bootstrap-ui -->
 	<script src="app/app.js"></script><!-- load application module -->
 	<script src="app/controllers/app.controllers.js"></script><!-- load controllers module -->
+	<script src="app/controllers/app.modals.js"></script><!-- load modals module -->
+	<script src="app/services/app.services.js"></script><!-- load services module -->
+	<script src="app/directives/app.directives.js"></script><!-- load directives module -->
 
 </head>
 <body>
@@ -39,17 +42,17 @@
 
       <div class="collapse navbar-collapse" id="collapsible-nav-area">
         <ul class="nav navbar-nav">
-          <li><a href="/routes">Routes</a></li>
-          <li><a href="/vehicles">Vehicles</a></li>          
+          <li hf-authorized="['admin', 'user']"><a href="/routes">Routes</a></li>
+          <li hf-authorized="['user']"><a href="/vehicles">Vehicles</a></li>          
         </ul>
         <ul class="nav navbar-nav navbar-right" ng-controller="ModalController">
           <li class="dropdown">
             <a class="dropdown-toggle clickable" data-toggle="dropdown">Actions <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a class="clickable" ng-click="openModal('logon')">Logon</a></li>
-              <li><a class="clickable" ng-click="openModal('contact')">Contact Us</a></li>
-              <li class="divider"></li>
-              <li><a href="/">Logoff</a></li>
+              <li hf-authorized="['unauthenticated']"><a class="clickable" ng-click="openModal('login')">Login</a></li>
+              <li hf-authorized="['user']"><a class="clickable" ng-click="openModal('contact')">Contact Us</a></li>
+              <li class="divider" hf-authorized="['admin', 'user']"></li>
+              <li ng-controller="LogoutController" hf-authorized="['user']"><a class="clickable" ng-click="logout()">Logout</a></li>
             </ul>
           </li>
         </ul> 
