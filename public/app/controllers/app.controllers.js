@@ -23,22 +23,38 @@ angular.module('app.controllers', [])
 }])
 
 // Routes Controller
-.controller('RoutesController', ['$scope', '$http', '$location', '$window', function($scope, $http, $location, $window) {
-    $scope.formData = {};
-
-    // when creating a new channel, send the channel name to the node API
-    $scope.createChannel = function() {
-	    $http.post('/api/channels', $scope.formData)
-		    .success(function(data) {
-			    $scope.formData = {}; // clear the form so our user is ready to enter another
-			    $scope.channels = data;
-			    console.log(data);
-			    $location.path("/sum");
-		    })
-		    .error(function(data) {
- 		        
-		    });
-    };
+.controller('RoutesController', ['$scope', '$http', '$location', '$window', 'ErrorService',
+    function($scope, $http, $location, $window, err) {
+        $scope.formData = {};
+        $scope.channels = [];
+        $scope.errors = [];
+        
+        // when creating a new channel, send the channel name to the node API
+        $scope.createChannel = function() {
+	        $http.post('/api/channels', $scope.formData)
+		        .success(function(data) {
+			        $scope.formData = {}; // clear the form so our user is ready to enter another
+			        $scope.errors = [];
+			        $scope.channels = data;
+			        //$location.path("/vehicles");
+		        })
+		        .error(function(data) {
+		            $scope.errors = data;
+     		        /*angular.forEach(data, function(error) {
+     		            $scope.channels.push(error.msg);
+     		        });*/
+		        });
+        };
+        
+        $scope.getChannels = function () {
+            $http.get('/api/channels')
+                .success(function(data) {
+                    $scope.channels = data;
+                })
+                .error(function(data) {
+                    $scope.errors = data;
+                });
+        };
 }])
 
 // Vehicles Controller
@@ -48,10 +64,11 @@ angular.module('app.controllers', [])
 }])
 
 // Error Controller
-.controller('ErrorController', ['$scope', '$http', '$routeParams', '$window', function($scope, $http, $routeParams, $window) {
-    $scope.error = { msg: $window.sessionStorage.error };
-    
-}])
+.controller('ErrorController', ['$scope', '$http', '$routeParams', '$window', 'ErrorService',
+    function($scope, $http, $routeParams, $window, err) {
+        $scope.error = { msg: err.msg };
+    }
+])
 
 // Logout Controller
 .controller('LogoutController', ['$scope', '$window', '$location', 'AuthorizationService',

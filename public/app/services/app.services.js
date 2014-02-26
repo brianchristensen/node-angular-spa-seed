@@ -1,8 +1,8 @@
 angular.module('app.services', [])
     
 // authentication http interceptor service
-.factory('AuthenticationInterceptor', ['$q', '$window', '$location', 
-    function($q, $window, $location) {
+.factory('AuthenticationInterceptor', ['$q', '$window', '$location', 'ErrorService',
+    function($q, $window, $location, err) {
         return {
             'request': function (config) { // attach token to every request
                 config.headers = config.headers || {};
@@ -16,20 +16,22 @@ angular.module('app.services', [])
                 
                 return response || $q.when(response);
             },
-            'responseError': function (response) { // handle unauthorized and bad requests
-                if (response.status === 400 || response.status === 401) {   // normal bad requests                 
-                    $window.sessionStorage.error = response.data;
+            'responseError': function (response) { 
+                if (response.status === 401) {   // handle unauthorized   
+                    if (response.data[0].msg) err.msg = response.data[0].msg;
+                    else err.msg = response.data;       
+                    
                     $location.path("/error");
                 }
                 else if (response.status === 500) { // generic server errors and token/login errors
                     if (response.data === "Error: jwt expired") {
-                        $window.sessionStorage.error = "Your session has expired.  Please login again.";
+                        err.msg = "Your session has expired.  Please login again.";
                     }
                     else if (response.data === "Error: No Authorization header was found") {
-                        $window.sessionStorage.error = "Please login to the application.";
+                        err.msg = "Please login to the application.";
                     }
                     else {
-                        $window.sessionStorage.error = "Oops, our servers have encountered an issue!  Please try again later.";
+                        err.msg = "Oops, our servers have encountered an issue!  Please try again later.";
                     }                
                     
                     $location.path("/error");  // change above error to response.data to see technical error details
@@ -47,6 +49,13 @@ angular.module('app.services', [])
         isLoggedIn: null,
         role: 'unauthenticated'
     }
-}]);
+}])
+
+// error service used to store the most recent error(s)
+.factory('ErrorService', [function () {
+    return {
+        msg: null
+    }
+}])
 
 

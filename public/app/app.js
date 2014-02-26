@@ -45,29 +45,31 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
 ])
 
 // app bootstrap
-app.run(['$rootScope', '$location', '$window', 'AuthorizationService', function ($rootScope, $location, $window, auth) {
+app.run(['$rootScope', '$location', '$window', 'AuthorizationService', 'ErrorService',
+    function ($rootScope, $location, $window, auth, err) {
     
-    // prevent unauthorized route access
-    $rootScope.$on('$routeChangeStart', function (event, next, current) {
-        var allowed = false;
-        
-        // no route authorization defined
-        if (!next.authorized) { allowed = true; }
-        // route authorization defined but user not logged in
-        else if (!auth.role){ $window.sessionStorage.error = "Please login to view this resource."; }
-        // check that users role is included in route authorization
-        else { 
-            angular.forEach(next.authorized, function(role) {
-                if(role.toLowerCase().indexOf(auth.role.toLowerCase()) >= 0 ) allowed = true;;
-            });
+        // prevent unauthorized route access
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
+            var allowed = false;
             
-            if (!allowed) $window.sessionStorage.error = "You are not authorized to view this resource.";
-        }
-        
-        if (allowed) { $location.path(next.originalPath); }
-        else         { $location.path('/error'); }
-    });
-}]);
+            // no route authorization defined
+            if (!next.authorized) { allowed = true; }
+            // route authorization defined but user not logged in
+            else if (auth.role === 'unauthenticated'){ err.msg = "Please login to view this resource."; }
+            // check that users role is included in route authorization
+            else { 
+                angular.forEach(next.authorized, function(role) {
+                    if(role.toLowerCase().indexOf(auth.role.toLowerCase()) >= 0 ) allowed = true;;
+                });
+                
+                if (!allowed) err.msg = "You are not authorized to view this resource.";
+            }
+            
+            if (allowed) { $location.path(next.originalPath); }
+            else         { $location.path('/error'); }
+        });
+    }        
+]);
 
 
 

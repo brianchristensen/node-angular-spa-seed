@@ -3,6 +3,13 @@
 	<h1>Toll Sum</h1>
 </div>
 
+<!-- DISPLAY CHANNELS -->
+<div class="col-sm-8 col-sm-offset-2 text-center">
+    <ul>
+        <li ng-repeat="channel in channels">{{ channel }}</li>
+    </ul>
+</div>
+
 <!-- FORM TO CREATE CHANNEL -->
 <div id="channel-form" class="row">
 	<div class="col-sm-8 col-sm-offset-2 text-center">
@@ -16,6 +23,14 @@
 
 			<!-- createChannel() WILL CREATE A NEW CHANNEL -->
 			<button type="submit" class="btn btn-primary btn-lg" ng-click="createChannel()">Calculate Tolls</button>
+			<button class="btn btn-primary btn-lg" ng-click="getChannels()">Get Tolls</button>
 		</form>
 	</div>
+</div>
+
+<!-- DISPLAY ERRORS -->
+<div class="col-sm-8 col-sm-offset-2 text-center">
+    <ul>
+        <li ng-repeat="error in errors">{{ error.msg }}</li>
+    </ul>
 </div>

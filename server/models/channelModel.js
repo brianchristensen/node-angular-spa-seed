@@ -1,6 +1,6 @@
 var _ = require('underscore')._;
 
-module.exports = function() {
+module.exports = function(db) {
     var self = this,
         channels = [];
 
